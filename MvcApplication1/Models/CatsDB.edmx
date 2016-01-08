@@ -1,0 +1,308 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CatsDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Modules">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="rPassWord" Type="nvarchar" MaxLength="20" />
+          <Property Name="Location" Type="nvarchar" MaxLength="50" />
+          <Property Name="Detail" Type="nvarchar(max)" />
+          <Property Name="NumData" Type="int" Nullable="false" />
+          <Property Name="Latest" Type="nvarchar" MaxLength="20" />
+          <Property Name="Type" Type="nvarchar(max)" />
+          <Property Name="Code" Type="nvarchar(max)" />
+          <Property Name="wPassWord" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="ModuleUser">
+          <Key>
+            <PropertyRef Name="Modules_id" />
+            <PropertyRef Name="Users_id" />
+          </Key>
+          <Property Name="Modules_id" Type="int" Nullable="false" />
+          <Property Name="Users_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TypeDatas">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DataType" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UnitModule">
+          <Key>
+            <PropertyRef Name="Modules_id" />
+            <PropertyRef Name="Units_id" />
+          </Key>
+          <Property Name="Modules_id" Type="int" Nullable="false" />
+          <Property Name="Units_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Units">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Unit1" Type="nvarchar(max)" />
+          <Property Name="TypeDataId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PassWord" Type="nvarchar" MaxLength="50" />
+          <Property Name="NickName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Affiliation" Type="nvarchar(max)" />
+          <Property Name="Detail" Type="nvarchar(max)" />
+          <Property Name="MailAddress" Type="nvarchar" MaxLength="320" />
+          <Property Name="CellPhoneNum" Type="nvarchar" MaxLength="50" />
+          <Property Name="PhoneNum" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_ModuleUser_Modules">
+          <End Role="Modules" Type="Self.Modules" Multiplicity="1" />
+          <End Role="ModuleUser" Type="Self.ModuleUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modules">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ModuleUser">
+              <PropertyRef Name="Modules_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ModuleUser_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="ModuleUser" Type="Self.ModuleUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ModuleUser">
+              <PropertyRef Name="Users_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnitModule_Modules">
+          <End Role="Modules" Type="Self.Modules" Multiplicity="1" />
+          <End Role="UnitModule" Type="Self.UnitModule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Modules">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UnitModule">
+              <PropertyRef Name="Modules_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UnitModule_Units">
+          <End Role="Units" Type="Self.Units" Multiplicity="1" />
+          <End Role="UnitModule" Type="Self.UnitModule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Units">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UnitModule">
+              <PropertyRef Name="Units_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CatsDBModelStoreContainer">
+          <EntitySet Name="Modules" EntityType="Self.Modules" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ModuleUser" EntityType="Self.ModuleUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypeDatas" EntityType="Self.TypeDatas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UnitModule" EntityType="Self.UnitModule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Units" EntityType="Self.Units" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ModuleUser_Modules" Association="Self.FK_ModuleUser_Modules">
+            <End Role="Modules" EntitySet="Modules" />
+            <End Role="ModuleUser" EntitySet="ModuleUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ModuleUser_Users" Association="Self.FK_ModuleUser_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ModuleUser" EntitySet="ModuleUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnitModule_Modules" Association="Self.FK_UnitModule_Modules">
+            <End Role="Modules" EntitySet="Modules" />
+            <End Role="UnitModule" EntitySet="UnitModule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UnitModule_Units" Association="Self.FK_UnitModule_Units">
+            <End Role="Units" EntitySet="Units" />
+            <End Role="UnitModule" EntitySet="UnitModule" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CatsDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Module">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="rPassWord" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="NumData" Type="Int32" Nullable="false" />
+          <Property Name="Latest" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Code" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="wPassWord" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="Self.ModuleUser" FromRole="Modules" ToRole="Users" />
+          <NavigationProperty Name="Units" Relationship="Self.UnitModule" FromRole="Modules" ToRole="Units" />
+        </EntityType>
+        <EntityType Name="TypeData">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Unit">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Unit1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TypeDataId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Modules" Relationship="Self.UnitModule" FromRole="Units" ToRole="Modules" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PassWord" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NickName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Affiliation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MailAddress" Type="String" MaxLength="320" FixedLength="false" Unicode="true" />
+          <Property Name="CellPhoneNum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Modules" Relationship="Self.ModuleUser" FromRole="Users" ToRole="Modules" />
+        </EntityType>
+        <Association Name="ModuleUser">
+          <End Role="Modules" Type="Self.Module" Multiplicity="*" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+        </Association>
+        <Association Name="UnitModule">
+          <End Role="Modules" Type="Self.Module" Multiplicity="*" />
+          <End Role="Units" Type="Self.Unit" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="CatsDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Modules" EntityType="Self.Module" />
+          <EntitySet Name="TypeDatas" EntityType="Self.TypeData" />
+          <EntitySet Name="Units" EntityType="Self.Unit" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="ModuleUser" Association="Self.ModuleUser">
+            <End Role="Modules" EntitySet="Modules" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="UnitModule" Association="Self.UnitModule">
+            <End Role="Modules" EntitySet="Modules" />
+            <End Role="Units" EntitySet="Units" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CatsDBModelStoreContainer" CdmEntityContainer="CatsDBEntities">
+          <EntitySetMapping Name="Modules">
+            <EntityTypeMapping TypeName="CatsDBModel.Module">
+              <MappingFragment StoreEntitySet="Modules">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="rPassWord" ColumnName="rPassWord" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+                <ScalarProperty Name="NumData" ColumnName="NumData" />
+                <ScalarProperty Name="Latest" ColumnName="Latest" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="wPassWord" ColumnName="wPassWord" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypeDatas">
+            <EntityTypeMapping TypeName="CatsDBModel.TypeData">
+              <MappingFragment StoreEntitySet="TypeDatas">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="DataType" ColumnName="DataType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Units">
+            <EntityTypeMapping TypeName="CatsDBModel.Unit">
+              <MappingFragment StoreEntitySet="Units">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Unit1" ColumnName="Unit1" />
+                <ScalarProperty Name="TypeDataId" ColumnName="TypeDataId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="CatsDBModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idName" ColumnName="idName" />
+                <ScalarProperty Name="PassWord" ColumnName="PassWord" />
+                <ScalarProperty Name="NickName" ColumnName="NickName" />
+                <ScalarProperty Name="Affiliation" ColumnName="Affiliation" />
+                <ScalarProperty Name="Detail" ColumnName="Detail" />
+                <ScalarProperty Name="MailAddress" ColumnName="MailAddress" />
+                <ScalarProperty Name="CellPhoneNum" ColumnName="CellPhoneNum" />
+                <ScalarProperty Name="PhoneNum" ColumnName="PhoneNum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="ModuleUser" TypeName="CatsDBModel.ModuleUser" StoreEntitySet="ModuleUser">
+            <EndProperty Name="Modules">
+              <ScalarProperty Name="id" ColumnName="Modules_id" />
+            </EndProperty>
+            <EndProperty Name="Users">
+              <ScalarProperty Name="id" ColumnName="Users_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="UnitModule" TypeName="CatsDBModel.UnitModule" StoreEntitySet="UnitModule">
+            <EndProperty Name="Modules">
+              <ScalarProperty Name="id" ColumnName="Modules_id" />
+            </EndProperty>
+            <EndProperty Name="Units">
+              <ScalarProperty Name="id" ColumnName="Units_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="なし" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

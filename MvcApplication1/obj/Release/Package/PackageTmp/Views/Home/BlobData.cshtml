@@ -1,0 +1,97 @@
+﻿@model MvcApplication1.Models.Balldata
+
+@{
+    ViewBag.Title = "Blobデータの表示";
+    int takenum = Model.TakeNum;
+    int takenum_after = takenum + 19;
+    var xx = System.Web.HttpContext.Current.Request;
+    string BaseUrl = string.Format("{0}://{1}{2}", Request.Url.Scheme, xx.Url.Authority, Url.Content("~"));
+}
+
+
+<style type="text/css">
+    #Model_Id
+    {
+        visibility: hidden;
+    }
+    table
+    {
+        border:3px solid #ccc; border-spacing:0; border-collapse:collapse;
+    }
+    th { border:1px solid #ccc; background-color:#808080; color:#fff }
+    td { border:1px solid #ccc; background-color:#fff}
+</style>
+
+<hgroup class="title">
+    <h1>@Html.ActionLink("ホーム", "Index", "Home") >> @Html.ActionLink("データの表示", "Data", "Home", new { ModuleName = Model.ModuleName, takenum = 1, DateStart = "20291231-235959-9999", DateEnd = "00010101-000000-0000" }, new { }) >> @ViewBag.Title</h1>
+</hgroup>
+
+<h3>モジュール名： @Model.ModuleName</h3>
+<h3>Blobファイル名： @Model.FileName</h3>
+<br />
+@if (Model.NumData == 0) {
+    <h3>データがありません。</h3>
+    <h3>ホーム画面に戻るには @Html.ActionLink("こちら", "Index", "Home")</h3>
+} else {
+    if (Model.NumData > takenum_after) {
+    <p style="display: inline;">全 @Model.NumData 件中、@takenum ～ @takenum_after 件のデータを表示しています。</p>
+    } else {
+    <p style="display: inline;">全 @Model.NumData 件中、@takenum ～ @Model.NumData 件のデータを表示しています。</p>
+    }
+
+    using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <p id="Model_Id" style="display: inline;">@Html.TextBoxFor(m => m.ModuleName, new { style = "width:50px" }) @Html.TextBoxFor(m => m.FileName, new { style = "width:50px" }) @Html.TextBoxFor(m => m.date, new { style = "width:50px" })</p>
+    <br />
+
+    <fieldset style="display: inline;">
+        <legend style="display: inline;"></legend>
+
+        日付検索
+                @Html.TextBoxFor(m => m.DateEnd)
+        ～ 
+                @Html.TextBoxFor(m => m.DateStart)
+        <input type="submit" value="検索" style="display: inline;" />
+
+    </fieldset>
+    }
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+
+    <p>
+        @if (takenum != 1) {
+            @Html.ActionLink("前の20件", "BlobData", "Home", new { ModuleName = Model.ModuleName, date = Model.date, takenum = takenum - 20, DateStart = Model.DateStart, DateEnd = Model.DateEnd }, new { })
+    }
+        @if (takenum_after <= Model.NumData) {
+            @Html.ActionLink("次の20件", "BlobData", "Home", new { ModuleName = Model.ModuleName, date = Model.date, takenum = takenum + 20, DateStart = Model.DateStart, DateEnd = Model.DateEnd }, new { })
+    }
+    </p>
+
+
+    <table>
+
+        <tr>
+            <th class="center">更新日時</th>
+            @foreach (var x in Model.Type) {
+                <th class="center">@x</th>
+        }
+
+        </tr>
+
+        @foreach (var x in Model.data) {
+            <tr class="center">
+                @foreach (var y in x) {
+                    <td class="center">
+                        @y
+                    </td>
+            }
+            </tr>
+    }
+
+    </table>
+    
+}

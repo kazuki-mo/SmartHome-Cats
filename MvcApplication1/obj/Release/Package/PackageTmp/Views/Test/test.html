@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8" />
+    <title>ASP.NET Web API</title>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/jquery-1.7.2.min.js")" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    <header>
+        <div class="content-wrapper">
+            <div class="float-left">
+                <p class="site-title">
+                    <a href="/">ASP.NET Web API のサンプル</a></p>
+            </div>
+        </div>
+    </header>
+    <div id="body">
+        <form id="myform" action="/">
+        <input type="button" id="api_button" value="リクエスト送付" />
+        <p>
+            <input type="radio" name="hentai" value="0" checked />とても変態
+            <input type="radio" name="hentai" value="1" />普通に変態
+            <input type="radio" name="hentai" value="2" />ちょっと変態
+            <input type="radio" name="hentai" value="3" />割と普通
+        </p>
+        <p>
+            <input type="text" value="文字列" name="comment" />
+        </p>
+        </form>
+    </div>
+    <script type="text/javascript">
+        $('#api_button').on('click', function () {
+            var data = $('#myform').serialize();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Content("~/api/data")',
+                data: data,
+                success: function (res) {
+                    alert(res);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

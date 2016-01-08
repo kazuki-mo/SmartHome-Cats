@@ -1,0 +1,47 @@
+﻿@model MvcApplication1.Models.ChangeTypeData
+
+@{
+    ViewBag.Title = "データ種類の変更";
+}
+
+@{
+    int num = 0;
+}
+
+<style type="text/css">
+    #ModuleName
+    {
+        visibility: hidden;
+    }
+</style>
+
+<hgroup class="title">
+    <h1>@Html.ActionLink("ホーム", "Index", "Home") >> @Html.ActionLink("モジュール情報", "Detail", "Home", new { id = Model.ModuleName }, new { }) >> @ViewBag.Title</h1>
+</hgroup>
+
+<h3>モジュール名： @Model.ModuleName</h3>
+<br />
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <p id="ModuleName" style="display:inline;">@Html.TextBoxFor(m => m.ModuleName)</p>
+
+    <fieldset>
+        <legend></legend>
+        <ol>
+            @foreach (string typedata in Model.UnitList) {
+                <li>
+                    <p>@Html.TextBoxFor(m => m.UnitList[num])&nbsp;&nbsp;&nbsp;&nbsp;@Model.TypeDataList[num] 型&nbsp;&nbsp;&nbsp;&nbsp;@Html.DropDownListFor(m => m.TypeDataList[num], new SelectList(Model.TypeDataAllList),"変更しない")</p>
+                </li>
+                num++;
+            }
+        </ol>
+        <input type="submit" value="変更" />
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

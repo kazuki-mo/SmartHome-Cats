@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="DefaultConnection-Web.config Connection String" description="DefaultConnection データベースに接続するためにアプリケーションによって web.config で使用される接続文字列。" defaultValue="Data Source=CICP-UBI\SQLEXPRESS;Persist Security Info=True;User ID=sa;Password=greenubi-sh;Database=SimpleMembershipDB" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\ubi-CICP\\documents\\visual\ studio\ 2013\\Projects\\MvcApplication1\\MvcApplication1\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+  <parameter name="MvcApplication1Context-Web.config Connection String" description="MvcApplication1Context データベースに接続するためにアプリケーションによって web.config で使用される接続文字列。" defaultValue="Data Source=(localdb)\v11.0; Initial Catalog=MvcApplication1Context-20131119105725; Integrated Security=True; MultipleActiveResultSets=True; AttachDbFilename=|DataDirectory|MvcApplication1Context-20131119105725.mdf" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\ubi-CICP\\documents\\visual\ studio\ 2013\\Projects\\MvcApplication1\\MvcApplication1\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='MvcApplication1Context']/@connectionString" />
+  </parameter>
+  <parameter name="CatsDBEntities-Web.config Connection String" description="CatsDBEntities データベースに接続するためにアプリケーションによって web.config で使用される接続文字列。" defaultValue="metadata=res://*/Models.CatsDB.csdl|res://*/Models.CatsDB.ssdl|res://*/Models.CatsDB.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=CICP-UBI\SQLEXPRESS;initial catalog=CatsDB;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework&quot;" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\ubi-CICP\\documents\\visual\ studio\ 2013\\Projects\\MvcApplication1\\MvcApplication1\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='CatsDBEntities']/@connectionString" />
+  </parameter>
+</parameters>

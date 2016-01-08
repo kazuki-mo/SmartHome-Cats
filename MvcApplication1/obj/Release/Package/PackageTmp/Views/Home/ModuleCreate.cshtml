@@ -1,0 +1,61 @@
+﻿@model MvcApplication1.Models.ChangeModuleInfoModel
+
+@{
+    ViewBag.Title = "モジュールの新規登録";
+}
+
+<style type="text/css">
+    #P_Before
+    {
+        visibility: hidden;
+    }
+
+    #P_ChackBox
+    {
+    }
+</style>
+
+<hgroup class="title">
+    <h1>@Html.ActionLink("ホーム", "Index", "Home") >> @ViewBag.Title</h1>
+</hgroup>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+
+    <fieldset>
+        <legend></legend>
+        <ol>
+            <li>
+                <p id="P_Before">@Html.TextBoxFor(m => m.BeforeName)</p>
+            </li>
+            <li>
+                @Html.LabelFor(m => m.ModuleName)
+                @Html.TextBoxFor(m => m.ModuleName)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.rPassword)
+                <p>@Html.PasswordFor(m => m.rPassword)&nbsp;&nbsp;&nbsp;&nbsp;@Html.CheckBoxFor(m => m.rPWCheck)&nbsp;パスワードを設定しない</p>
+            </li>
+            <li>
+                @Html.LabelFor(m => m.wPassword)
+                <p>@Html.PasswordFor(m => m.wPassword)&nbsp;&nbsp;&nbsp;&nbsp;@Html.CheckBoxFor(m => m.wPWCheck)&nbsp;パスワードを設定しない</p>
+            </li>
+
+            <li>
+                @Html.LabelFor(m => m.Location)
+                @Html.TextBoxFor(m => m.Location)
+            </li>
+            <li>
+                @Html.LabelFor(m => m.Detail)
+                @Html.TextAreaFor(m => m.Detail)
+            </li>
+        </ol>
+        <input type="submit" value="登録" />
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

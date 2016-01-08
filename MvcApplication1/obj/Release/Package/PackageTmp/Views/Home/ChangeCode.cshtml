@@ -1,0 +1,37 @@
+﻿@model MvcApplication1.Models.ChangeCode
+
+@{
+    ViewBag.Title = "まりもコードの編集";
+}
+
+<hgroup class="title">
+    <h1>@Html.ActionLink("ホーム", "Index", "Home") >> @Html.ActionLink("モジュール情報", "Detail", "Home", new { id = Model.ModuleName }, new { }) >> @ViewBag.Title</h1>
+</hgroup>
+
+
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <fieldset>
+        <legend></legend>
+        <ol>
+
+            <li>
+                <h3>モジュール名： @Html.ValueFor(m => m.ModuleName)</h3>
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                <input type="submit" value="保存" />
+            </li>
+
+                <li>
+                    @Html.TextAreaFor(m => m.MarimoCode,50,50,null)
+                </li>
+        </ol>
+        <input type="submit" value="保存" />
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

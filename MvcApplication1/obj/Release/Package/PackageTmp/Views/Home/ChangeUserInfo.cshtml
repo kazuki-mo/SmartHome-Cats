@@ -1,0 +1,64 @@
+﻿@model MvcApplication1.Models.ChangeUserInfoModel
+
+@{
+    ViewBag.Title = "ユーザ情報の変更";
+}
+
+<style type="text/css">
+    #P_UserName
+    {
+        visibility: hidden;
+    }
+</style>
+
+<hgroup class="title">
+    <h1>@Html.ActionLink("ユーザ情報", "Contact", "Home") >> @ViewBag.Title</h1>
+</hgroup>
+<br />
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+<fieldset>
+    <legend></legend>
+    <ol>
+        <li>
+            @Html.LabelFor(m => m.UserName)
+            <p>@Model.UserName</p>
+        </li>
+        <li>
+            @Html.LabelFor(m => m.NickName)
+            @Html.TextBoxFor(m => m.NickName)
+        </li>
+        <li>
+            @Html.LabelFor(m => m.Affiliation)
+            @Html.TextBoxFor(m => m.Affiliation)
+        </li>
+        <li>
+            @Html.LabelFor(m => m.Detail)
+            @Html.TextAreaFor(m => m.Detail)
+        </li>
+        <li>
+            @Html.LabelFor(m => m.MailAddress)
+            @Html.TextBoxFor(m => m.MailAddress)
+        </li>
+        <li>
+            @Html.LabelFor(m => m.CellPhoneNum)
+            @Html.TextBoxFor(m => m.CellPhoneNum)
+        </li>
+        <li>
+            @Html.LabelFor(m => m.PhoneNum)
+            @Html.TextBoxFor(m => m.PhoneNum)
+        </li>
+    </ol>
+    <input type="submit" value="変更" />
+
+    <p id="P_UserName">@Html.TextBoxFor(m => m.UserName)</p>
+
+</fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

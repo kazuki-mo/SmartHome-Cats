@@ -1,0 +1,59 @@
+﻿@{
+    var xx = System.Web.HttpContext.Current.Request;
+    string BaseUrl = string.Format("{0}://{1}{2}", Request.Url.Scheme, xx.Url.Authority, Url.Content("~"));
+}
+
+<!　DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=10" />
+    <title>Cats ～モジュール管理アプリケーション～</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <script src="~/Scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
+
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <header>
+        <div class="content-wrapper" >
+            <div class="float-left">
+                <p class="site-title"><a href="@BaseUrl"><img src="@BaseUrl/Pictures/CatsLogo2.bmp" alt="" title="ホームへ戻る" width="76" height="70"> <img src="@BaseUrl/Pictures/CatsFontLogo2.bmp" alt="" title="ホームへ戻る" width="200" height="70"> <img src="@BaseUrl/Pictures/CatsLogo.bmp" alt="" title="ホームへ戻る" width="76" height="70"></a></p>
+            </div>
+            <div class="float-right">
+                <section id="login">
+                    @Html.Partial("_LoginPartial")
+                </section>
+                <nav >
+                    <ul id="menu">
+                        <li>@Html.ActionLink("ホーム", "Index", "Home")</li>
+                        <li>@Html.ActionLink("バージョン情報", "About", "Home")</li>
+                        <li>@Html.ActionLink("ユーザ情報", "Contact", "Home")</li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <div id="body">
+        @RenderSection("featured", required: false)
+        <section class="content-wrapper main-content clear-fix">
+            @RenderBody()
+        </section>
+    </div>
+    <footer>
+        <div class="content-wrapper">
+            <div class="float-left">
+                <p>&copy; @DateTime.Now.Year ? マイ ASP.NET MVC アプリケーション</p>
+            </div>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @RenderSection("scripts", required: false)
+    @RenderSection("styles", required:false)
+</body>
+</html>

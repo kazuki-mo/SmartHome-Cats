@@ -1,0 +1,317 @@
+﻿@model MvcApplication1.Models.RDataBase
+
+@{
+    var user = Model.db.Users;
+    string pass = ViewBag.Message;
+    
+    var xx = System.Web.HttpContext.Current.Request;
+    string BaseUrl = string.Format("{0}://{1}{2}", Request.Url.Scheme, xx.Url.Authority, Url.Content("~"));
+    bool Flag_InsertOrDelete = false;
+
+    if (Request.IsAuthenticated) {
+
+        var loginuser = user.Where(p => p.idName.Equals(User.Identity.Name)).Single();
+        foreach (var module in loginuser.Modules) {
+            if (!module.Type.Equals("0")) {
+                Flag_InsertOrDelete = true;
+            }
+        }
+
+    }
+    string Flag = Flag_InsertOrDelete.ToString();
+}
+
+@{
+    ViewBag.Title = "モジュール管理アプリケーション";
+}
+
+<style type="text/css">
+    #title, #title2
+    {
+        color: #fff;
+        font-size: 1.75em;
+    }
+</style>
+
+<script type="text/javascript">
+
+    var Flag = "@Flag";
+
+    window.onload = function () {
+        if (Flag == "True") {
+            sleep(3000, function () { location.reload(); });
+        }
+
+        function sleep(time, callback) {
+
+            setTimeout(callback, time);
+
+        }
+    }
+
+    function ShowDeleteDialog(Name,NumData) {
+
+        if (window.confirm(Name + '： このモジュールを削除しますか？')) {
+
+            if (NumData > 0) {
+                if (window.confirm(Name + '： \n  このモジュールには、データが残っています。\n  データも削除されますが、よろしいですか？' )) {
+                    DeleteData(Name);
+                    DeleteModule(Name);
+                    sleep(1000, function () { location.href = "@BaseUrl"; });
+                } else {
+                    alert('キャンセルされました');
+                }
+            } else {
+                DeleteModule(Name);
+
+                @*var send_data = [{ dt: '20140327-150300-0000', pw: "write", dat: ['1111', '22', '3333', '9999'] }, { dt: '20140327-150300-0001', pw: "write", dat: ['4444', '5555', '6666'] },
+                             { dt: '20140327-150300-0002', pw: "write", dat: ['1111', '100', '3333', '9999', '8888'] }, { dt: '20140327-150300-0003', pw: "write", dat: ['4444', '5555', '6666'] }];
+
+            $.ajax({
+                type: 'post',
+                url: '@BaseUrl' + 'api/blobadd/hogetest09/HogerX04/File01',
+                data: JSON.stringify(send_data),
+                contentType: 'application/JSON',
+                dataType: "json",
+                success: function (data) {
+                    alert(data);
+                }
+            });*@
+
+                @*var send_data = [{ dt: '20140327-150300-0000', pw: "write", dat: ['1111', '22', '3333', '9999'] }, { dt: '20140327-150300-0001', pw: "write", dat: ['4444', '5555', '6666'] },
+                             { dt: '20140327-150300-0002', pw: "write", dat: ['1111', '100', '3333', '9999', '8888'] }, { dt: '20140327-150300-0003', pw: "write", dat: ['4444', '5555', '6666'] }];
+
+            $.ajax({
+                type: 'post',
+                url: '@BaseUrl' + 'api/dataadd/hogetest09/HogerX03',
+                data: JSON.stringify(send_data),
+                contentType: 'application/JSON',
+                dataType: "json",
+                scriptCharset: 'utf-8',
+                success: function (data) {
+                    alert(data);
+                }
+            });*@
+
+
+                @*var send_data = { pw: null, ul: ['test1|3', 'test2|10'] };
+
+            $.ajax({
+                type: 'post',
+                url: '@BaseUrl' + 'api/unitadd/hogetest08/HogerX02',
+                data: '=' + JSON.stringify(send_data),
+                dataType: "json",
+                success: function (data) {
+                    alert(data);
+                }
+            });*@
+
+                //var send_data = [{ dt: '20140327-150300-0000', pw: null, dat: ['1111', '22', '3333','9999'] }, { dt: '20140327-150300-0001', pw: null, dat: ['4444', '5555', '6666'] },
+                //                 { dt: '20140327-150300-0002', pw: null, dat: ['1111', '100', '3333', '9999', '8888'] }, { dt: '20140327-150300-0003', pw: null, dat: ['4444', '5555', '6666'] }];
+
+                @*            var send_data = { pw: "read", from: "20140520-094239-4080", to: "20140520-094239-4090", num: 10, orderby: "desc", noDate: false };
+
+            $.ajax({
+                type: 'post',
+                url: '@BaseUrl' + 'api/data/wada/TestModule02',
+                data: '=' + JSON.stringify(send_data),
+                dataType: "json",
+                success: function (data) {
+                    alert(data);
+                }
+            });*@
+
+                @*$.ajax({
+                type: 'post',
+                url: '@BaseUrl' + 'api/dataadd',
+                data: '=' + JSON.stringify(send_data),
+                dataType: "json",
+                success: function (data) {
+                    alert(data);
+                }
+            });*@
+
+                @* $.ajax({
+                type: 'get',
+                url: '@BaseUrl' + 'api/user/hogetest099',
+                dataType: "json",
+                success: function (data) {
+                    alert(data);
+                }
+            });*@
+
+                sleep(1000, function () { location.href = "@BaseUrl"; });
+
+            }
+        }
+        else {
+            alert('キャンセルされました');
+        }
+
+        function sleep(time, callback) {
+
+            setTimeout(callback, time);
+
+        }
+
+        function DeleteModule(Name) {
+            $.ajax({
+                type: 'post',
+                url: '@BaseUrl' + 'api/moduledelete',
+                data: '='+Name,
+                success: function (data) {
+                    alert(data + ' を削除しました。');
+                }
+            });
+        }
+
+        function DeleteData(Name) {
+            var send = { modulename: Name, datestart: '20291231-235959-9999', dateend: '00010101-000000-0000' };
+            $.ajax({
+                type: 'post',
+                cache: false,
+                url: '@BaseUrl' + 'api/datadelete',
+                data: JSON.stringify(send),
+                contentType: 'application/JSON',
+                dataType: "json",
+                scriptCharset: 'utf-8',
+                success: function (data) {
+                },
+                error: function (data) {
+                }
+            });
+        }
+    }
+
+</script>
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+
+            @*<h1>@ViewBag.Title</h1>*@
+
+            @if (Request.IsAuthenticated) {
+                var loginuser = user.Where(p => p.idName.Equals(User.Identity.Name)).Single();
+                <p id="title">
+                    ようこそ、@loginuser.NickName さん！<br>
+                    ここは、モジュールの登録管理アプリケーションです。
+                </p>
+            } else {
+                <p id="title2">
+                    このシステムは、モジュールの登録管理システムです。<br>
+                    操作を行なうためには、ログイン してください。
+                </p>
+            }
+
+        </div>
+    </section>
+}
+
+@if (Request.IsAuthenticated) {
+
+    var loginuser = user.Where(p => p.idName.Equals(User.Identity.Name)).Single();
+    
+    <h2>@loginuser.NickName さんが所有しているモジュール</h2>
+    
+    <p>モジュールの新規登録は @Html.ActionLink("こちら", "ModuleCreate", "Home")</p>
+    
+    <style type="text/css">
+        table
+        {
+            border: 3px solid #ccc;
+            border-spacing: 0;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th
+        {
+            border: 1px solid #ccc;
+            background-color: #808080;
+            color: #fff;
+        }
+
+        td
+        {
+            border: 1px solid #ccc;
+            background-color: #fff;
+        }
+    </style>
+    
+    <table>
+
+        <tr>
+            <th class="center">操作</th>
+            <th class="center">モジュール名</th>
+            <th class="center">データ数</th>
+            <th class="center">最終更新時刻</th>
+            <th class="center">データの種類</th>
+            <th class="center">モジュールの詳細</th>
+
+        </tr>
+
+        @foreach (var x in loginuser.Modules) {
+
+            <tr class="center">
+
+                <td class="center">
+                    <a href="#" onclick="ShowDeleteDialog('@x.Name',@x.NumData)">削除</a>  @Html.ActionLink("変更", "ChangeModuleInfo", "Home", x, new { })
+                </td>
+
+                <td class="center">
+                    @x.Name
+                </td>
+                <td class="center">
+                    @if (x.Type.Equals("1")) {
+                        <p>削除中</p>
+                    } else if (x.Type.Equals("2")) {
+                        <p>挿入中</p>
+                    } else if (x.NumData == 0) {
+                        @x.NumData
+                    } else {
+                        @Html.ActionLink(x.NumData.ToString(), "Data", "Home", new { ModuleName = x.Name, takenum = 1, DateStart = "20291231-235959-9999", DateEnd = "00010101-000000-0000" }, new { })
+                    }
+                </td>
+                <td class="center">@x.Latest</td>
+                <td class="center">
+                    @{
+                    String typesum = String.Empty;
+                    try {
+                        foreach (var unit in x.Units) {
+                            typesum += "," + unit.Unit1;
+                        }
+                        typesum = typesum.Substring(1, typesum.Length - 1);
+                    } catch {
+                        typesum = String.Empty;
+                    }
+                    }
+                    @typesum
+
+                    @*@{
+      String typesum = String.Empty;
+      try {
+          String[] type = x.Type.Split('|');
+          foreach (var t in type) {
+              typesum += ", " + t.Split(':')[0];
+          }
+          typesum = typesum.Substring(1, typesum.Length - 1);
+      } catch {
+          typesum = String.Empty;
+      }
+                    }
+                    @typesum*@
+                </td>
+                <td class="center">@Html.ActionLink("詳細", "Detail", "Home", new { id = x.Name }, new { })</td>
+
+            </tr>
+
+        }
+
+    </table>
+    
+} else {
+    <h3>@Html.ActionLink("ログイン", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })したら、ここにユーザの所有するモジュールの一覧が表示されます。</h3>
+}
+
+

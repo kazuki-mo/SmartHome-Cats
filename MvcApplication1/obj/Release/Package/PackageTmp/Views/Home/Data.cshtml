@@ -1,0 +1,266 @@
+﻿@model MvcApplication1.Models.Malldata 
+
+@{
+    ViewBag.Title = "データの表示";
+    int takenum = Model.TakeNum;
+    int takenum_after = takenum + 19;
+    var xx = System.Web.HttpContext.Current.Request;
+    string BaseUrl = string.Format("{0}://{1}{2}", Request.Url.Scheme, xx.Url.Authority, Url.Content("~"));
+    bool Flag_TypeCheck = false;
+    bool Flag_TypeNull = false;
+    string Flag_Deleting = Model.Deleting.ToString();
+    int blobNum = 0;
+}
+
+
+
+<script type="text/javascript">
+
+    
+    var Flag = "@Flag_Deleting";
+
+    window.onload = function(){
+        if (Flag == "True") {
+            sleep(2000, function () { location.reload(); });
+        }
+
+        function sleep(time, callback) {
+
+            setTimeout(callback, time);
+
+        }
+    }
+
+    function ShowDeleteDialog(ModuleName, DateEnd, DateStart) {
+
+        if (window.confirm(DateEnd + ' ～ ' + DateStart + ' のデータを削除しますか？')) {
+
+            var send = {modulename: ModuleName, datestart: DateStart, dateend: DateEnd};
+
+            $.ajax({
+                type: 'post',
+                cache: false,
+                url: '@BaseUrl' + 'api/datadelete',
+                data: JSON.stringify(send),
+                contentType: 'application/JSON',
+                dataType: "json",
+                scriptCharset: 'utf-8',
+                success: function (data) {
+                },
+                error: function (data) {
+                }
+            });
+
+            alert('データの削除を実行しました。');
+            @*sleep(1000, function () { location.href = "@BaseUrl" + "Home/Data?ModuleName=" + ModuleName + "&takenum=1&DateStart=20291231-235959-9999&DateEnd=00010101-000000-0000"; });*@
+            location.href = "@BaseUrl" + "Home/Data?ModuleName=" + ModuleName + "&takenum=1&DateStart=20291231-235959-9999&DateEnd=00010101-000000-0000";
+
+        }
+        else {
+            alert('キャンセルされました');
+        }
+
+        function sleep(time, callback) {
+
+            setTimeout(callback, time);
+
+        }
+    }
+
+</script>
+
+<style type="text/css">
+    #Model_Id
+    {
+        visibility: hidden;
+    }
+    table
+    {
+        border:3px solid #ccc; border-spacing:0; border-collapse:collapse;
+    }
+    th { border:1px solid #ccc; background-color:#808080; color:#fff }
+    td { border:1px solid #ccc; background-color:#fff}
+    #TypeError
+    {
+        color:#f00
+    }
+    #TypeNull
+    {
+        color:#0094ff
+    }
+</style>
+
+<hgroup class="title">
+    <h1>@Html.ActionLink("ホーム", "Index", "Home") >> @ViewBag.Title</h1>
+</hgroup>
+
+<h3>モジュール名： @Model.ModuleName</h3>
+<br />
+@if (Model.Deleting) {
+    <h3> データを削除中です。 </h3>
+    <h3> ホーム画面に戻るには @Html.ActionLink("こちら", "Index", "Home")</h3>
+} else if (Model.NumData == 0) {
+    <h3> データがありません。</h3>
+    <h3> ホーム画面に戻るには @Html.ActionLink("こちら", "Index", "Home")</h3>
+} else {
+    if (Model.NumData > takenum_after) {
+        <p style="display:inline;">全 @Model.NumData 件中、@takenum ～ @takenum_after 件のデータを表示しています。</p>
+    } else {
+        <p style="display:inline;">全 @Model.NumData 件中、@takenum ～ @Model.NumData 件のデータを表示しています。</p>
+    }
+
+    using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <p id="Model_Id" style="display:inline;">@Html.TextBoxFor(m => m.ModuleName)</p>
+
+    <fieldset style="display:inline;">
+        <legend style="display:inline;"></legend>
+
+                日付検索
+                @Html.TextBoxFor(m => m.DateEnd)
+                 ～ 
+                @Html.TextBoxFor(m => m.DateStart)
+        <input type="submit" value="検索" style="display:inline;"/>
+                
+    </fieldset>
+    }
+@*<BUTTON onclick="ShowDeleteDialog('@Model.Id','@Model.DateEnd','@Model.DateStart')">削除</BUTTON>*@
+    if (Model.DateEnd.Equals("00010101-000000-0000") && Model.DateStart.Equals("20291231-235959-9999")) {
+
+<a href="#" onclick="ShowDeleteDialog('@Model.ModuleName','@Model.DateEnd','@Model.DateStart')">全件削除</a>
+    } else {
+<a href="#" onclick="ShowDeleteDialog('@Model.ModuleName','@Model.DateEnd','@Model.DateStart')">@Model.DateEnd ～ @Model.DateStart のデータを削除</a>
+    }
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<p>
+    @if (takenum != 1) {
+        @Html.ActionLink("前の20件", "Data", "Home", new { ModuleName = Model.ModuleName, takenum = takenum - 20, DateStart = Model.DateStart, DateEnd = Model.DateEnd }, new { })
+    }
+    @if (takenum_after <= Model.NumData) {
+        @Html.ActionLink("次の20件", "Data", "Home", new { ModuleName = Model.ModuleName, takenum = takenum + 20, DateStart = Model.DateStart, DateEnd = Model.DateEnd }, new { })
+    }
+</p>
+
+
+<table>
+
+    <tr>
+        <th class="center">更新日時</th>
+        @foreach (var x in Model.Type) {
+            <th class="center">@x</th>
+        }
+
+    </tr>
+
+    @foreach (var x in Model.data) {
+        int num = 0;
+        <tr class="center">
+            @foreach (var y in x) {
+
+                if ((num != 0) && Model.Type[num - 1].Equals("")) {
+                    <td id="TypeNull" class="center">
+                    @y
+                    </td>
+                    Flag_TypeNull = true;
+                } else if ((y == null) || (num == 0) || TypeCheck(Model.TypeDataId[num - 1], y) || (y.Equals(""))) {
+                    if ((num != 0) && Model.FlagBlob[blobNum]) {
+                        <td class="center">
+                        @if (y == null || y.Equals("")) {
+                            @y
+                        } else { 
+                            @Html.ActionLink(y, "BlobData", "Home", new { ModuleName = Model.ModuleName, date = x[0], takenum = 1, DateStart = "20291231-235959-9999", DateEnd = "00010101-000000-0000" }, new { })
+                        }
+                            </td>
+                    } else {
+                        <td class="center">
+                        @y
+                        </td>
+                    }
+
+                } else {
+                <td id="TypeError" class="center">
+                    @if ((num != 0) && Model.FlagBlob[blobNum]) {
+                        @Html.ActionLink(y, "BlobData", "Home", new { ModuleName = Model.ModuleName, date = x[0], takenum = 1, DateStart = "20291231-235959-9999", DateEnd = "00010101-000000-0000" }, new { })
+                    } else {
+                        @y
+                    }
+                </td>
+                    System.Diagnostics.Debug.WriteLine("TypeCheck" + num + "," + y);
+                    Flag_TypeCheck = true;
+                }
+                num++;
+            }
+        </tr>
+            blobNum++;
+    }
+
+</table>
+
+    if (Flag_TypeCheck) {
+    <br />
+    <p id="TypeError" style="display:inline;">※設定している型とデータの型が異なります。　設定は @Html.ActionLink("こちら", "Detail", "Home", new { id = Model.ModuleName }, new { }) から。</p>
+    }
+    if (Flag_TypeNull) {
+    <br />
+    <p id="TypeNull">※データの種類が設定されていないデータがあります。 設定は @Html.ActionLink("こちら", "Detail", "Home", new { id = Model.ModuleName }, new { }) から。</p>
+    }
+
+@functions {
+
+    bool TypeCheck(int id, string data) {
+
+        try {
+
+            switch (id) {
+                case 1:
+                    SByte.Parse(data);
+                    break;
+                case 2:
+                    short.Parse(data);
+                    break;
+                case 3:
+                    Int32.Parse(data);
+                    break;
+                case 4:
+                    long.Parse(data);
+                    break;
+                case 5:
+                    Byte.Parse(data);
+                    break;
+                case 6:
+                    ushort.Parse(data);
+                    break;
+                case 7:
+                    UInt32.Parse(data);
+                    break;
+                case 8:
+                    ulong.Parse(data);
+                    break;
+                case 9:
+                    float.Parse(data);
+                    break;
+                case 10:
+                    Double.Parse(data);
+                    break;
+                case 11:
+                    Decimal.Parse(data);
+                    break;
+                default:
+                    break;
+
+            }
+            return true;
+
+        } catch {
+            return false;
+        }
+    }
+
+}
+    
+}

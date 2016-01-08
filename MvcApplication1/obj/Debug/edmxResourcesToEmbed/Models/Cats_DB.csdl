@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="cats_dbModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="cats_dbEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="Modules" EntityType="cats_dbModel.Module" />
+    <EntitySet Name="TypeDatas" EntityType="cats_dbModel.TypeData" />
+    <EntitySet Name="Units" EntityType="cats_dbModel.Unit" />
+    <EntitySet Name="Users" EntityType="cats_dbModel.User" />
+    <AssociationSet Name="ModuleUser" Association="cats_dbModel.ModuleUser">
+      <End Role="Modules" EntitySet="Modules" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="UnitModule" Association="cats_dbModel.UnitModule">
+      <End Role="Modules" EntitySet="Modules" />
+      <End Role="Units" EntitySet="Units" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Module">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="rPassWord" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="Location" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Detail" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="NumData" Type="Int32" Nullable="false" />
+    <Property Name="Latest" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="Type" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Code" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="wPassWord" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Users" Relationship="cats_dbModel.ModuleUser" FromRole="Modules" ToRole="Users" />
+    <NavigationProperty Name="Units" Relationship="cats_dbModel.UnitModule" FromRole="Modules" ToRole="Units" />
+  </EntityType>
+  <EntityType Name="TypeData">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="DataType" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Unit">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="Unit1" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="TypeDataId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Modules" Relationship="cats_dbModel.UnitModule" FromRole="Units" ToRole="Modules" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="idName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="PassWord" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="NickName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Affiliation" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="Detail" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="MailAddress" Type="String" MaxLength="320" Unicode="true" FixedLength="false" />
+    <Property Name="CellPhoneNum" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="PhoneNum" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Modules" Relationship="cats_dbModel.ModuleUser" FromRole="Users" ToRole="Modules" />
+  </EntityType>
+  <Association Name="ModuleUser">
+    <End Role="Modules" Type="cats_dbModel.Module" Multiplicity="*" />
+    <End Role="Users" Type="cats_dbModel.User" Multiplicity="*" />
+  </Association>
+  <Association Name="UnitModule">
+    <End Role="Modules" Type="cats_dbModel.Module" Multiplicity="*" />
+    <End Role="Units" Type="cats_dbModel.Unit" Multiplicity="*" />
+  </Association>
+</Schema>

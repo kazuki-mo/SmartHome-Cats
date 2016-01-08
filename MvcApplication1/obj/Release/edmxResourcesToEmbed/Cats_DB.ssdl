@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="cats_dbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="cats_dbModelStoreContainer">
+    <EntitySet Name="Modules" EntityType="cats_dbModel.Store.Modules" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ModuleUser" EntityType="cats_dbModel.Store.ModuleUser" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Test" EntityType="cats_dbModel.Store.Test" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TypeDatas" EntityType="cats_dbModel.Store.TypeDatas" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UnitModule" EntityType="cats_dbModel.Store.UnitModule" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Units" EntityType="cats_dbModel.Store.Units" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserProfile" EntityType="cats_dbModel.Store.UserProfile" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="cats_dbModel.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="webpages_Membership" EntityType="cats_dbModel.Store.webpages_Membership" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="webpages_OAuthMembership" EntityType="cats_dbModel.Store.webpages_OAuthMembership" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="webpages_Roles" EntityType="cats_dbModel.Store.webpages_Roles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="webpages_UsersInRoles" EntityType="cats_dbModel.Store.webpages_UsersInRoles" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_ModuleUser_Module" Association="cats_dbModel.Store.FK_ModuleUser_Module">
+      <End Role="Modules" EntitySet="Modules" />
+      <End Role="ModuleUser" EntitySet="ModuleUser" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ModuleUser_User" Association="cats_dbModel.Store.FK_ModuleUser_User">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="ModuleUser" EntitySet="ModuleUser" />
+    </AssociationSet>
+    <AssociationSet Name="fk_RoleId" Association="cats_dbModel.Store.fk_RoleId">
+      <End Role="webpages_Roles" EntitySet="webpages_Roles" />
+      <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UnitModule_Module" Association="cats_dbModel.Store.FK_UnitModule_Module">
+      <End Role="Modules" EntitySet="Modules" />
+      <End Role="UnitModule" EntitySet="UnitModule" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UnitModule_Unit" Association="cats_dbModel.Store.FK_UnitModule_Unit">
+      <End Role="Units" EntitySet="Units" />
+      <End Role="UnitModule" EntitySet="UnitModule" />
+    </AssociationSet>
+    <AssociationSet Name="fk_UserId" Association="cats_dbModel.Store.fk_UserId">
+      <End Role="UserProfile" EntitySet="UserProfile" />
+      <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Modules">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="20" />
+    <Property Name="rPassWord" Type="nvarchar" MaxLength="20" />
+    <Property Name="Location" Type="nvarchar" MaxLength="50" />
+    <Property Name="Detail" Type="nvarchar(max)" />
+    <Property Name="NumData" Type="int" Nullable="false" />
+    <Property Name="Latest" Type="nvarchar" MaxLength="20" />
+    <Property Name="Type" Type="nvarchar(max)" />
+    <Property Name="Code" Type="nvarchar(max)" />
+    <Property Name="wPassWord" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="ModuleUser">
+    <Key>
+      <PropertyRef Name="Modules_id" />
+      <PropertyRef Name="Users_id" />
+    </Key>
+    <Property Name="Modules_id" Type="int" Nullable="false" />
+    <Property Name="Users_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Test">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="nvarchar" MaxLength="32" />
+  </EntityType>
+  <EntityType Name="TypeDatas">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="DataType" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UnitModule">
+    <Key>
+      <PropertyRef Name="Units_id" />
+      <PropertyRef Name="Modules_id" />
+    </Key>
+    <Property Name="Units_id" Type="int" Nullable="false" />
+    <Property Name="Modules_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Units">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Unit1" Type="nvarchar(max)" />
+    <Property Name="TypeDataId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserProfile">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="56" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="idName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="PassWord" Type="nvarchar" MaxLength="50" />
+    <Property Name="NickName" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Affiliation" Type="nvarchar(max)" />
+    <Property Name="Detail" Type="nvarchar(max)" />
+    <Property Name="MailAddress" Type="nvarchar" MaxLength="320" />
+    <Property Name="CellPhoneNum" Type="nvarchar" MaxLength="50" />
+    <Property Name="PhoneNum" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="webpages_Membership">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" />
+    <Property Name="ConfirmationToken" Type="nvarchar" MaxLength="128" />
+    <Property Name="IsConfirmed" Type="bit" />
+    <Property Name="LastPasswordFailureDate" Type="datetime" />
+    <Property Name="PasswordFailuresSinceLastSuccess" Type="int" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="PasswordChangedDate" Type="datetime" />
+    <Property Name="PasswordSalt" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="PasswordVerificationToken" Type="nvarchar" MaxLength="128" />
+    <Property Name="PasswordVerificationTokenExpirationDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="webpages_OAuthMembership">
+    <Key>
+      <PropertyRef Name="Provider" />
+      <PropertyRef Name="ProviderUserId" />
+    </Key>
+    <Property Name="Provider" Type="nvarchar" Nullable="false" MaxLength="30" />
+    <Property Name="ProviderUserId" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="webpages_Roles">
+    <Key>
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="RoleId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="RoleName" Type="nvarchar" Nullable="false" MaxLength="256" />
+  </EntityType>
+  <EntityType Name="webpages_UsersInRoles">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="RoleId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_ModuleUser_Module">
+    <End Role="Modules" Type="cats_dbModel.Store.Modules" Multiplicity="1" />
+    <End Role="ModuleUser" Type="cats_dbModel.Store.ModuleUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Modules">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ModuleUser">
+        <PropertyRef Name="Modules_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ModuleUser_User">
+    <End Role="Users" Type="cats_dbModel.Store.Users" Multiplicity="1" />
+    <End Role="ModuleUser" Type="cats_dbModel.Store.ModuleUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ModuleUser">
+        <PropertyRef Name="Users_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_RoleId">
+    <End Role="webpages_Roles" Type="cats_dbModel.Store.webpages_Roles" Multiplicity="1" />
+    <End Role="webpages_UsersInRoles" Type="cats_dbModel.Store.webpages_UsersInRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="webpages_Roles">
+        <PropertyRef Name="RoleId" />
+      </Principal>
+      <Dependent Role="webpages_UsersInRoles">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UnitModule_Module">
+    <End Role="Modules" Type="cats_dbModel.Store.Modules" Multiplicity="1" />
+    <End Role="UnitModule" Type="cats_dbModel.Store.UnitModule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Modules">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="UnitModule">
+        <PropertyRef Name="Modules_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UnitModule_Unit">
+    <End Role="Units" Type="cats_dbModel.Store.Units" Multiplicity="1" />
+    <End Role="UnitModule" Type="cats_dbModel.Store.UnitModule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Units">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="UnitModule">
+        <PropertyRef Name="Units_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_UserId">
+    <End Role="UserProfile" Type="cats_dbModel.Store.UserProfile" Multiplicity="1" />
+    <End Role="webpages_UsersInRoles" Type="cats_dbModel.Store.webpages_UsersInRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserProfile">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="webpages_UsersInRoles">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

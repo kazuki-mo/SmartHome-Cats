@@ -1,0 +1,106 @@
+﻿@model MvcApplication1.Models.RDataBase
+
+@{
+    var user = Model.db.Users;
+}
+
+@{
+    ViewBag.Title = "ユーザ情報";
+}
+
+@*<link rel ="stylesheet" href="192.168.32.115/MVC4_01/UserInfo.css" type="text/css" />*@
+<style type="text/css">
+    /*button
+    {
+        float:left;
+    }*/
+    #password
+    {
+        color:#0094ff
+    }
+</style>
+
+
+<hgroup class="title">
+    <h1>@ViewBag.Title</h1>
+</hgroup>
+<br />
+
+@if (Request.IsAuthenticated){
+  
+    var loginuser = user.Where(p => p.idName.Equals(User.Identity.Name)).Single();
+
+    <form action="ChangeUserInfo" method="get">
+    <button type="submit">ユーザ情報の変更</button>
+    </form>
+    
+    <br />
+    
+<section class="contact">
+    <header>
+        <h3>ユーザID</h3>
+    </header>
+    <p>
+        @loginuser.idName
+    </p>
+</section>
+
+<section class="contact">
+    <header>
+        <h3>表示名</h3>
+    </header>
+    <p>
+        @loginuser.NickName
+    </p>
+</section>
+
+<section class="contact">
+    <header>
+        <h3>所属</h3>
+    </header>
+    <p>
+        @loginuser.Affiliation
+    </p>
+</section>
+    
+<section class="contact">
+    <header>
+        <h3>ユーザの説明</h3>
+    </header>
+    <p>
+        @loginuser.Detail
+    </p>
+</section>
+    
+<section class="contact">
+    <header>
+        <h3>メールアドレス</h3>
+    </header>
+    <p>
+        @loginuser.MailAddress
+    </p>
+</section>
+    
+<section class="contact">
+    <header>
+        <h3>携帯電話番号</h3>
+    </header>
+    <p>
+        @loginuser.CellPhoneNum
+    </p>
+</section>
+
+<section class="contact">
+    <header>
+        <h3>電話番号</h3>
+    </header>
+    <p>
+        @loginuser.PhoneNum
+    </p>
+</section>
+    <br />
+    <p id="password">パスワードの変更は @Html.ActionLink("こちら", "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" }) から</p>
+
+}else{
+    <p>@Html.ActionLink("ログイン", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })したら、ここにユーザ情報が表示されます。</p>
+}

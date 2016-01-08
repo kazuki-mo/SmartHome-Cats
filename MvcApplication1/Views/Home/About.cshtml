@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "バージョン情報";
+}
+
+<style type="text/css">
+    #social-icon a
+    {
+        font-size: 300px;
+        font-family: 'WebSymbolsRegular';
+        margin: 0 0 0 10px;
+    }
+
+    #social-icon .ico_fb
+    {
+        color: #3b5998;
+    }
+
+    #social-icon .ico_google
+    {
+        color: #c53727;
+    }
+
+    #social-icon .ico_hatena
+    {
+        color: #0075c2;
+    }
+
+    #social-icon .ico_rss
+    {
+        color: #FF8C00;
+    }
+
+    #social-icon .ico_win
+    {
+        color: #000000;
+    }
+</style>
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <h2>@ViewBag.Message</h2>
+</hgroup>
+
+<div id="social-icon">
+    <a href="#" target="_blank" class="ico_fb">&#228;</a>
+    <a href="#" target="_blank" class="ico_google">&#232;</a>
+    <a href="#" target="_blank" class="ico_hatena">&#230;</a>
+    <a href="#" target="_blank" class="ico_rss">&#241;</a>
+    <a href="#" target="_blank" class="ico_win">&#0047;</a>
+</div>

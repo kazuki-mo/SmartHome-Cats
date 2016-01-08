@@ -1,0 +1,150 @@
+﻿@model MvcApplication1.Models.Module
+
+@{
+    ViewBag.Title = "モジュール情報";
+}
+<style type="text/css">
+    /*button
+    {
+        float:left;
+    }*/
+    #password
+    {
+        color: #0094ff;
+    }
+
+    .BT_CH
+    {
+        background-color: #808080;
+        display: inline-block;
+        font-size: 16px;
+        font-weight: 700;
+        padding: 8px 5px 8px 5px;
+        text-decoration: none;
+        border: 1px solid;
+        background-color: #a9a5a5;
+    }
+</style>
+
+
+<hgroup class="title">
+    <h1>@Html.ActionLink("ホーム", "Index", "Home") >> @ViewBag.Title</h1>
+</hgroup>
+<br />
+
+
+@Html.ActionLink("モジュール情報の変更", "ChangeModuleInfo", "Home", Model, new { @class = "BT_CH" })
+
+
+<br />
+
+<section class="contact">
+    <header>
+        <h3>モジュール名</h3>
+    </header>
+    <p>
+        @Model.Name
+    </p>
+</section>
+
+<section class="contact">
+    <header>
+        <h3>データ閲覧用パスワードの有無</h3>
+    </header>
+    <p>
+        @{
+            String rPassword = String.Empty;
+            if (Model.rPassWord == null) {
+                rPassword = "無";
+            } else {
+                rPassword = "有";
+            }
+        }
+        @rPassword
+    </p>
+</section>
+
+<section class="contact">
+    <header>
+        <h3>データアップロード用パスワードの有無</h3>
+    </header>
+    <p>
+        @{
+            String wPassword = String.Empty;
+            if (Model.wPassWord == null) {
+                wPassword = "無";
+            } else {
+                wPassword = "有";
+            }
+        }
+        @wPassword
+    </p>
+</section>
+
+<section class="contact">
+    <header>
+        <h3>設置場所</h3>
+    </header>
+    <p>
+        @Model.Location
+    </p>
+</section>
+
+<section class="contact">
+    <header>
+        <h3>データ数</h3>
+    </header>
+    <p>
+        @Model.NumData
+    </p>
+</section>
+
+<section class="contact">
+    <header>
+        <h3>最新更新日</h3>
+    </header>
+    <p>
+        @Model.Latest
+    </p>
+</section>
+
+<section class="contact">
+    <header>
+        <h3>データの種類</h3>
+    </header>
+    <p>
+        @{
+            String typesum = String.Empty;
+            try {
+                foreach (var unit in Model.Units) {
+                    typesum += "," + unit.Unit1;
+                }
+                typesum = typesum.Substring(1, typesum.Length - 1);
+            } catch {
+                typesum = String.Empty;
+            }
+        }
+        @typesum
+        &nbsp;&nbsp;@Html.ActionLink(" 変更 ", "ChangeTypeData", "Home", Model, new { @class = "BT_CH" })
+    </p>
+</section>
+
+<section class="contact">
+    <header>
+        <h3>モジュールの説明</h3>
+    </header>
+    <p>
+        @Model.Detail
+    </p>
+</section>
+
+<section class="contact">
+    <header>
+        <h3>まりもコード</h3>
+    </header>
+    <p>
+        @Model.Code
+    </p>
+    @Html.ActionLink(" 編集 ", "ChangeCode", "Home", new { ModuleName = Model.Name }, new { @class = "BT_CH" })
+</section>
+

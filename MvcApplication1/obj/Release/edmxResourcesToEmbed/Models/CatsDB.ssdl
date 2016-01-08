@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CatsDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Modules">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="rPassWord" Type="nvarchar" MaxLength="20" />
+    <Property Name="Location" Type="nvarchar" MaxLength="50" />
+    <Property Name="Detail" Type="nvarchar(max)" />
+    <Property Name="NumData" Type="int" Nullable="false" />
+    <Property Name="Latest" Type="nvarchar" MaxLength="20" />
+    <Property Name="Type" Type="nvarchar(max)" />
+    <Property Name="Code" Type="nvarchar(max)" />
+    <Property Name="wPassWord" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="ModuleUser">
+    <Key>
+      <PropertyRef Name="Modules_id" />
+      <PropertyRef Name="Users_id" />
+    </Key>
+    <Property Name="Modules_id" Type="int" Nullable="false" />
+    <Property Name="Users_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TypeDatas">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DataType" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UnitModule">
+    <Key>
+      <PropertyRef Name="Modules_id" />
+      <PropertyRef Name="Units_id" />
+    </Key>
+    <Property Name="Modules_id" Type="int" Nullable="false" />
+    <Property Name="Units_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Units">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Unit1" Type="nvarchar(max)" />
+    <Property Name="TypeDataId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="PassWord" Type="nvarchar" MaxLength="50" />
+    <Property Name="NickName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Affiliation" Type="nvarchar(max)" />
+    <Property Name="Detail" Type="nvarchar(max)" />
+    <Property Name="MailAddress" Type="nvarchar" MaxLength="320" />
+    <Property Name="CellPhoneNum" Type="nvarchar" MaxLength="50" />
+    <Property Name="PhoneNum" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_ModuleUser_Modules">
+    <End Role="Modules" Type="Self.Modules" Multiplicity="1" />
+    <End Role="ModuleUser" Type="Self.ModuleUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Modules">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ModuleUser">
+        <PropertyRef Name="Modules_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ModuleUser_Users">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="ModuleUser" Type="Self.ModuleUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ModuleUser">
+        <PropertyRef Name="Users_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UnitModule_Modules">
+    <End Role="Modules" Type="Self.Modules" Multiplicity="1" />
+    <End Role="UnitModule" Type="Self.UnitModule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Modules">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="UnitModule">
+        <PropertyRef Name="Modules_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UnitModule_Units">
+    <End Role="Units" Type="Self.Units" Multiplicity="1" />
+    <End Role="UnitModule" Type="Self.UnitModule" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Units">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="UnitModule">
+        <PropertyRef Name="Units_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CatsDBModelStoreContainer">
+    <EntitySet Name="Modules" EntityType="Self.Modules" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ModuleUser" EntityType="Self.ModuleUser" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TypeDatas" EntityType="Self.TypeDatas" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UnitModule" EntityType="Self.UnitModule" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Units" EntityType="Self.Units" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_ModuleUser_Modules" Association="Self.FK_ModuleUser_Modules">
+      <End Role="Modules" EntitySet="Modules" />
+      <End Role="ModuleUser" EntitySet="ModuleUser" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ModuleUser_Users" Association="Self.FK_ModuleUser_Users">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="ModuleUser" EntitySet="ModuleUser" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UnitModule_Modules" Association="Self.FK_UnitModule_Modules">
+      <End Role="Modules" EntitySet="Modules" />
+      <End Role="UnitModule" EntitySet="UnitModule" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UnitModule_Units" Association="Self.FK_UnitModule_Units">
+      <End Role="Units" EntitySet="Units" />
+      <End Role="UnitModule" EntitySet="UnitModule" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
